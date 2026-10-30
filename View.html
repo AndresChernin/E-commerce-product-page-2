@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Product Page</title>
+
+     <link rel="stylesheet" href="/src/styles/main-container.css">
+     <link rel="stylesheet" href="/src/styles/product-component.css">
+     <link rel="stylesheet" href="/src/styles/cart-component.css">
+     <link rel="stylesheet" href="/src/styles/navigation-components.css"> 
+     <link rel="stylesheet" href="/src/styles/header-component.css"> 
+     <link rel="stylesheet" href="/src/styles/opened-light-box-component.css">
+     <link rel="stylesheet" href="/src/styles/light-box-component.css">
+     <link rel="stylesheet" href="/src/styles/order-component.css"> 
+    
+  
+   <link href=
+    "https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;700;750;780;800&display=swap"
+    rel="stylesheet"
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    
+  </head>
+  <body>
+    
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    
+<script src="src/components/NavigationComponentHorizontal.jsx" type="text/babel"></script>   
+<script src="src/components/NavigationComponentVertical.jsx" type="text/babel"></script>
+
+<script src="src/components/HeaderComponent.jsx" type="text/babel"></script>
+
+
+<script src="src/components/OrderComponent.jsx" type="text/babel"></script>
+<script src="src/classes/Order.js" type="text/babel"></script>
+<script src="src/components/CartComponent.jsx" type="text/babel"></script>
+
+<script src="src/components/LightBoxComponent.jsx" type="text/babel"></script>
+<script src="src/components/OpenedLightBoxComponent.jsx" type="text/babel"></script>
+<script src="src/components/ProductComponent.jsx" type="text/babel"></script>
+
+<script src="src/data/data.js" type="text/babel"></script>    
+<script src="src/classes/ProductsModel.js" type="text/babel"></script> 
+<script src="src/classes/ProductsController.js" type="text/babel"></script>  
+<script src="src/classes/Product.js" type="text/babel"></script>
+<script src="src/classes/User.js" type="text/babel"></script>
+    <script type="text/babel">
+      
+
+
+       function App()
+       {
+        const [showVerticalNavigation, setShowNavigation]=React.useState(false);
+        const[images, setImages]=React.useState([]);
+        const [number, setNumber]=React.useState(0);
+        const controllerRef = React.useRef(null);
+        const [cartOpen,setCartOpen]=React.useState(false);
+        const [lightBoxOpen, setLightBoxOpen]=React.useState(false);
+        if (controllerRef.current === null) {
+            const productsModel = new ProductsModel(Product);
+            const myUser=new User();
+            
+            controllerRef.current = new ProductsController(data,productsModel,myUser,Order);
+            controllerRef.current.createProducts();
+        }
+
+
+        const myController = controllerRef.current;
+        const products=myController.getProducts();
+        const orders=myController.getOrders();
+        const user=myController.getUser();
+       
+         const [aktProduct, setAktProduct]=React.useState(products[0]);
+         const [aktUser, setAktUser]=React.useState(user);
+         const [aktOrders, setOrders]=React.useState(orders);
+         const[numberOfOrders, setNumberOfOrders]=React.useState(0);
+        function handleMenuIconClick(){
+          setShowNavigation(!showVerticalNavigation); 
+        }
+        
+       
+          function increaseNumber() {
+          setNumber(prev => prev + 1);
+          }
+
+           function decreaseNumber() {
+             setNumber(prev => Math.max(0, prev - 1));
+          }
+        function addToCart(){
+         myController.addOrder(aktProduct, number);
+         setOrders([...myController.getOrders()]);
+         setNumber(0);
+         const newOrders=myController.getOrders();
+         let counter=getOrdersCount(newOrders);
+         
+         setNumberOfOrders(counter);  
+        }
+        function removeFromCart(){
+          myController.removeFromOrder(aktProduct, number);
+          setOrders([...myController.getOrders()]);
+          setNumber(0);
+          const newOrders=myController.getOrders();
+          let counter=getOrdersCount(newOrders);
+          setNumberOfOrders(counter);
+        }
+      
+        function handleCartClick(){
+          setCartOpen(!cartOpen);
+        }
+        function handleCloseCart(){
+          setCartOpen(false);
+        }
+        function deleteOrder(id){
+          
+          myController.removeOrder(id);
+          setOrders([...myController.getOrders()]);
+           const newOrders=myController.getOrders();
+          let counter=getOrdersCount(newOrders);
+          
+          setNumberOfOrders(counter);
+        }
+        function handleBigImageClick(){
+          
+          setLightBoxOpen(true);
+        }
+        const[aktIndex, setIndex]=React.useState(0);
+        function handleNextClick(images){
+            
+            let nextIndex=0;
+            if(aktIndex===images.length-1){
+             nextIndex=0;
+            }
+            else{
+             nextIndex=aktIndex+1;
+            }
+       setIndex(nextIndex);
+    }
+    function handlePrevClick(images){
+       
+        let nextIndex=0;
+        if(aktIndex===0){
+           nextIndex=images.length-1;
+         }
+         else{
+           nextIndex=aktIndex-1;
+         }
+       setIndex(nextIndex);
+    }
+    function getOrdersCount(orders){
+      let counter=0;
+      for(let order of orders){
+             counter+=order.getNumber();
+          }
+      return counter;
+    }
+  
+     return(
+          
+          <main className={`main-container ${
+           showVerticalNavigation? "menu-open" : ""}`}  >
+             <HeaderComponent 
+             iconMenuImg="/images/icon-menu.svg"
+             iconCloseImg="/images/icon-close.svg"
+             logoImg="/images/logo.svg"
+             cartImg="/images/icon-cart.svg" 
+             avatarImg="/images/image-avatar.png"
+             showVerticalNavigation={showVerticalNavigation}
+             handleMenuClick={handleMenuIconClick}
+             handleCartClick={handleCartClick}
+             numberOfOrders={numberOfOrders}
+             cartOpen={cartOpen}
+             />
+             <section className="product-section">
+               <div className="product-section-inner-container">
+                <LightBoxComponent
+                    aktIndex={aktIndex}
+                    iconPrev="./images/icon-previous.svg"
+                    iconNext="./images/icon-next.svg"
+                    product={aktProduct}
+                    handleBigImageClick={handleBigImageClick}
+                    handlePrevClick={handlePrevClick}
+                    handleNextClick={handleNextClick}
+                    setIndex={setIndex}/>
+                <ProductComponent product={aktProduct} 
+                    minusImg="/images/icon-minus.svg"
+                    plusImg="/images/icon-plus.svg"
+                    number={number}
+                    boxImg="/images/icon-cart-black.svg"
+                    remImg="./images/icon-remove.webp"
+                    increaseNumber={increaseNumber}
+                    decreaseNumber={decreaseNumber}
+                    addToCart={addToCart}
+                    removeFromCart={removeFromCart}/>
+              </div>
+             </section> 
+             {cartOpen && <CartComponent orders={aktOrders}
+                                         deleteImg="/images/icon-delete.svg"
+                                         deleteOrder={deleteOrder}
+                                         iconMenuCloseImg="/images/icon-close-black.svg"
+                                         closeCart={handleCloseCart}/>} 
+             {lightBoxOpen && <OpenedLightBoxComponent 
+                                  aktIndex={aktIndex}
+                                  iconPrev="./images/icon-previous.svg"
+                                  iconNext="./images/icon-next.svg"
+                                  product={aktProduct}
+                                  handleBigImageClick={handleBigImageClick}
+                                  handlePrevClick={handlePrevClick}
+                                  handleNextClick={handleNextClick}
+                                  setIndex={setIndex}
+                                  iconClose="/images/icon-close-white.svg"
+                                  setLightBoxOpen={setLightBoxOpen}/>}                            
+          </main>
+         )      
+         
+       }
+      const container = document.querySelector('#root');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
