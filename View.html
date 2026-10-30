@@ -34,25 +34,25 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     
-<script src=".src/components/NavigationComponentHorizontal.jsx" type="text/babel"></script>   
-<script src=".src/components/NavigationComponentVertical.jsx" type="text/babel"></script>
+<script src="src/components/NavigationComponentHorizontal.jsx" type="text/babel"></script>   
+<script src="src/components/NavigationComponentVertical.jsx" type="text/babel"></script>
 
-<script src=".src/components/HeaderComponent.jsx" type="text/babel"></script>
+<script src="src/components/HeaderComponent.jsx" type="text/babel"></script>
 
 
-<script src=".src/components/OrderComponent.jsx" type="text/babel"></script>
-<script src=".src/classes/Order.js" type="text/babel"></script>
-<script src=".src/components/CartComponent.jsx" type="text/babel"></script>
+<script src="src/components/OrderComponent.jsx" type="text/babel"></script>
+<script src="src/classes/Order.js" type="text/babel"></script>
+<script src="src/components/CartComponent.jsx" type="text/babel"></script>
 
-<script src=".src/components/LightBoxComponent.jsx" type="text/babel"></script>
-<script src=".src/components/OpenedLightBoxComponent.jsx" type="text/babel"></script>
-<script src=".src/components/ProductComponent.jsx" type="text/babel"></script>
+<script src="src/components/LightBoxComponent.jsx" type="text/babel"></script>
+<script src="src/components/OpenedLightBoxComponent.jsx" type="text/babel"></script>
+<script src="src/components/ProductComponent.jsx" type="text/babel"></script>
 
-<script src=".src/data/data.js" type="text/babel"></script>    
-<script src=".src/classes/ProductsModel.js" type="text/babel"></script> 
-<script src=".src/classes/ProductsController.js" type="text/babel"></script>  
-<script src=".src/classes/Product.js" type="text/babel"></script>
-<script src=".src/classes/User.js" type="text/babel"></script>
+<script src="src/data/data.js" type="text/babel"></script>    
+<script src="src/classes/ProductsModel.js" type="text/babel"></script> 
+<script src="src/classes/ProductsController.js" type="text/babel"></script>  
+<script src="src/classes/Product.js" type="text/babel"></script>
+<script src="src/classes/User.js" type="text/babel"></script>
     <script type="text/babel">
       
 
@@ -203,9 +203,9 @@
               </div>
              </section> 
              {cartOpen && <CartComponent orders={aktOrders}
-                                         deleteImg="/images/icon-delete.svg"
+                                         deleteImg="./images/icon-delete.svg"
                                          deleteOrder={deleteOrder}
-                                         iconMenuCloseImg="/images/icon-close-black.svg"
+                                         iconMenuCloseImg="./images/icon-close-black.svg"
                                          closeCart={handleCloseCart}/>} 
              {lightBoxOpen && <OpenedLightBoxComponent 
                                   aktIndex={aktIndex}
@@ -216,7 +216,7 @@
                                   handlePrevClick={handlePrevClick}
                                   handleNextClick={handleNextClick}
                                   setIndex={setIndex}
-                                  iconClose="/images/icon-close-white.svg"
+                                  iconClose="./images/icon-close-white.svg"
                                   setLightBoxOpen={setLightBoxOpen}/>}                            
           </main>
          )      
