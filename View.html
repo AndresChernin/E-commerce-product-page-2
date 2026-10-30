@@ -203,9 +203,9 @@
               </div>
              </section> 
              {cartOpen && <CartComponent orders={aktOrders}
-                                         deleteImg="/images/icon-delete.svg"
+                                         deleteImg="./images/icon-delete.svg"
                                          deleteOrder={deleteOrder}
-                                         iconMenuCloseImg="/images/icon-close-black.svg"
+                                         iconMenuCloseImg="./images/icon-close-black.svg"
                                          closeCart={handleCloseCart}/>} 
              {lightBoxOpen && <OpenedLightBoxComponent 
                                   aktIndex={aktIndex}
@@ -216,7 +216,7 @@
                                   handlePrevClick={handlePrevClick}
                                   handleNextClick={handleNextClick}
                                   setIndex={setIndex}
-                                  iconClose="/images/icon-close-white.svg"
+                                  iconClose="./images/icon-close-white.svg"
                                   setLightBoxOpen={setLightBoxOpen}/>}                            
           </main>
          )      
