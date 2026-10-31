@@ -116,7 +116,7 @@ React.useEffect(() => {
              
                </button>
            </div>
-            <div className="all-small-images">
+            <div className="opened-all-small-images">
             {smallImages.map((image, index) => (
                     <button
                         className={`opened-thumbnail-img-part 
